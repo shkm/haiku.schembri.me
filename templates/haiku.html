@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" style="--color: $color$">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>$title$</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="alternate" type="application/atom+xml" title="$site_title$" href="/feed.xml">
+  ${social()}
+</head>
+<body>
+  <main>
+    <article>
+$body$
+    </article>
+    <a class="home" href="/" aria-label="All haiku">俳句</a>
+    <a class="title" href="/$slug$/">$title$</a>
+$if(prev_slug)$
+    <a class="prev" href="/$prev_slug$/" aria-label="Previous haiku" rel="prev">&larr;</a>
+$endif$
+$if(next_slug)$
+    <a class="next" href="/$next_slug$/" aria-label="Next haiku" rel="next">&rarr;</a>
+$endif$
+  </main>
+<script>onkeydown=e=>{let a=e.key==='ArrowLeft'&&document.querySelector('.prev')||e.key==='ArrowRight'&&document.querySelector('.next');a&&(location=a.href)}</script>
+</body>
+</html>

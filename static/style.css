@@ -1,0 +1,74 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Faculty Glyphic', serif;
+  font-size: 1.75rem;
+  line-height: 2;
+  color: #fff;
+  background: var(--color, #2C3930);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main { text-align: center; padding: 2rem; }
+
+article { font-size: clamp(1.5rem, 4vw, 4rem); }
+article p { margin: 0; }
+
+a {
+  color: color-mix(in srgb, var(--color), white 50%);
+  text-decoration: none;
+}
+
+a:hover { color: color-mix(in srgb, var(--color), white 80%); }
+
+::selection {
+  background: color-mix(in srgb, var(--color), white 40%);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: none;
+  text-decoration: underline 3px color-mix(in srgb, var(--color), white 60%);
+  text-underline-offset: 4px;
+}
+
+/* Index */
+.index {
+  padding: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0.5rem 1.5rem;
+}
+
+.index ul { display: contents; list-style: none; }
+.index li { display: inline; }
+
+/* Haiku nav */
+.home, .title {
+  position: fixed;
+  top: 1rem;
+  color: color-mix(in srgb, var(--color), white 30%);
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.home { left: 1rem; }
+.title { right: 1rem; }
+
+.home:hover, .title:hover { color: color-mix(in srgb, var(--color), white 60%); }
+
+.prev, .next {
+  position: fixed;
+  bottom: 1rem;
+  color: color-mix(in srgb, var(--color), white 30%);
+  font-size: 2rem;
+  padding: 1rem;
+}
+
+.prev:hover, .next:hover { color: color-mix(in srgb, var(--color), white 60%); }
+.prev { left: 1rem; }
+.next { right: 1rem; }
