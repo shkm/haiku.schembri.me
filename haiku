@@ -51,13 +51,21 @@ extract_haiku_text() {
   awk 'BEGIN{c=0} /^---$/{c++; next} c>=2' "$1" | sed '/^[[:space:]]*$/d'
 }
 
+download() {
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL "$1" -o "$2" 2>/dev/null
+  elif command -v wget >/dev/null 2>&1; then
+    wget -qO "$2" "$1" 2>/dev/null
+  fi
+}
+
 ensure_fonts() {
   FONT_DIR="$SCRIPT_DIR/.fonts"
   mkdir -p "$FONT_DIR"
   FONT_FILE="$FONT_DIR/FacultyGlyphic-Regular.ttf"
   JP_FONT_FILE="$FONT_DIR/NotoSerifJP-Regular.ttf"
-  [ ! -f "$FONT_FILE" ] && curl -fsSL "https://github.com/google/fonts/raw/main/ofl/facultyglyphic/FacultyGlyphic-Regular.ttf" -o "$FONT_FILE" 2>/dev/null || true
-  [ ! -f "$JP_FONT_FILE" ] && curl -fsSL "https://github.com/google/fonts/raw/main/ofl/notoserifjp/NotoSerifJP%5Bwght%5D.ttf" -o "$JP_FONT_FILE" 2>/dev/null || true
+  [ ! -f "$FONT_FILE" ] && download "https://github.com/google/fonts/raw/main/ofl/facultyglyphic/FacultyGlyphic-Regular.ttf" "$FONT_FILE" || true
+  [ ! -f "$JP_FONT_FILE" ] && download "https://github.com/google/fonts/raw/main/ofl/notoserifjp/NotoSerifJP%5Bwght%5D.ttf" "$JP_FONT_FILE" || true
 }
 
 generate_og_image() {
