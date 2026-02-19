@@ -17,12 +17,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: shkm/blurt:latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Build site
-        run: ./haiku build
+        run: docker run --rm --entrypoint ./haiku -v "$PWD:/repo" shkm/blurt build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
