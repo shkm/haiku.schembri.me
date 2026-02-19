@@ -1,6 +1,7 @@
 ---
 title: The Leaky Roof
 date: 2026-02-19
+order: 2
 ---
 normal winter life
 drip drip — something is leaking
