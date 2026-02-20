@@ -184,7 +184,7 @@ cmd_build() {
 "
   done
 
-  sorted=$(printf '%s' "$posts_data" | sort -n -r)
+  sorted=$(printf '%s' "$posts_data" | sort -n)
   total=$(echo "$sorted" | grep -c '[^[:space:]]' || true)
   i=0
 
@@ -195,7 +195,7 @@ cmd_build() {
     post="$SCRIPT_DIR/posts/$slug.md"
     description=$(sed -n 's/^description: *//p' "$post" | head -1)
 
-    # Determine prev/next (sorted newest first: prev=newer, next=older)
+    # Determine prev/next (sorted oldest first: prev=older, next=newer)
     prev_slug=""
     next_slug=""
     [ "$i" -gt 1 ] && prev_slug=$(echo "$sorted" | sed -n "$((i - 1))p" | cut -f3)
@@ -214,7 +214,7 @@ cmd_build() {
     generate_og_image "$haiku_text" "$color" "$DIST/$slug/og.jpg" "$title"
   done
 
-  index_list=$(echo "$sorted" | sort -n | while IFS='	' read -r order date slug title; do
+  index_list=$(echo "$sorted" | while IFS='	' read -r order date slug title; do
     [ -z "$order" ] && continue
     printf '<li><a href="%s/">%s</a></li>' "$slug" "$title"
   done)
@@ -231,7 +231,7 @@ cmd_build() {
   site_author=$(sed -n 's/^site_author: *"\{0,1\}\([^"]*\)"\{0,1\} *$/\1/p' "$SCRIPT_DIR/config.yaml" 2>/dev/null | head -1)
 
   if [ -n "$site_url" ]; then
-    feed_updated=$(echo "$sorted" | head -1 | cut -f2)
+    feed_updated=$(echo "$sorted" | tail -1 | cut -f2)
     [ -z "$feed_updated" ] && feed_updated=$(date -u +%Y-%m-%d)
     site_url_escaped=$(echo "$site_url" | xml_escape)
 
@@ -246,7 +246,7 @@ FEED_HEADER
     printf '  <updated>%sT00:00:00Z</updated>\n' "$feed_updated" >>"$DIST/feed.xml"
     [ -n "$site_author" ] && printf '  <author><name>%s</name></author>\n' "$(echo "$site_author" | xml_escape)" >>"$DIST/feed.xml"
 
-    echo "$sorted" | while IFS='	' read -r order date slug title; do
+    echo "$sorted" | sort -n -r | while IFS='	' read -r order date slug title; do
       [ -z "$order" ] && continue
       article=$(sed -n '/<article>/,/<\/article>/p' "$DIST/$slug/index.html")
       title_escaped=$(echo "$title" | xml_escape)
